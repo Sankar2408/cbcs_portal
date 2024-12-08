@@ -1,0 +1,148 @@
+/* StaffDashboard.css */
+
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+}
+
+h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.year-selection {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.year-selection button {
+  padding: 10px 20px;
+  margin: 0 10px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.year-selection button.active {
+  background-color: #0056b3;
+}
+
+.year-selection button:hover {
+  background-color: #0056b3;
+}
+
+.department-selection {
+  margin-bottom: 20px;
+}
+
+.department-selection select {
+  width: 100%;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  font-size: 16px;
+}
+
+.add-subject {
+  margin-bottom: 20px;
+}
+
+.add-subject input {
+  padding: 10px;
+  width: 70%;
+  margin-right: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+.add-subject button {
+  padding: 10px;
+  background-color: #28a745;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.add-subject button:hover {
+  background-color: #218838;
+}
+
+.subject-list {
+  margin-top: 20px;
+}
+
+.subject-item {
+  margin-bottom: 20px;
+  padding: 10px;
+  background-color: #f1f1f1;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.subject-item strong {
+  display: block;
+  font-size: 18px;
+  color: #333;
+}
+
+.subject-item ul {
+  list-style-type: none;
+  padding-left: 0;
+}
+
+.subject-item ul li {
+  margin: 5px 0;
+  color: #555;
+}
+
+.subject-item input {
+  padding: 10px;
+  margin-right: 10px;
+  width: 70%;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+.subject-item button {
+  padding: 10px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.subject-item button:hover {
+  background-color: #0056b3;
+}
+
+button {
+  padding: 12px 20px;
+  background-color: #ffc107;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  width: 100%;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #e0a800;
+}
+
+button:disabled {
+  background-color: #dcdcdc;
+  cursor: not-allowed;
+}

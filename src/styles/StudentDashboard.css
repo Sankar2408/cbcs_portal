@@ -1,0 +1,141 @@
+/* StudentDashboard.css */
+
+.container {
+  width: 80%;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #f4f4f9;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+  text-align: center;
+  color: #333;
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+.roll-number,
+.year-selection,
+.department-selection {
+  margin-bottom: 15px;
+}
+
+label {
+  font-size: 16px;
+  color: #333;
+  display: block;
+  margin-bottom: 8px;
+}
+
+input,
+select {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  box-sizing: border-box;
+}
+
+input:disabled,
+select:disabled {
+  background-color: #e9ecef;
+}
+
+select {
+  cursor: pointer;
+}
+
+.subjects-container {
+  margin-top: 20px;
+}
+
+.subject-item {
+  background-color: #fff;
+  padding: 15px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
+}
+
+h3 {
+  font-size: 18px;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.staff-list {
+  margin-left: 20px;
+}
+
+.staff-item {
+  margin-bottom: 8px;
+}
+
+input[type="radio"] {
+  margin-right: 10px;
+}
+
+.submit-container {
+  text-align: center;
+  margin-top: 30px;
+}
+
+.submit-button {
+  padding: 12px 30px;
+  font-size: 16px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.submit-button:hover {
+  background-color: #0056b3;
+}
+
+.submit-button:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+}
+
+.loading-message {
+  text-align: center;
+  font-size: 18px;
+  color: #007bff;
+}
+
+p {
+  text-align: center;
+  font-size: 16px;
+  color: #666;
+}
+
+.department-selection select,
+.year-selection select {
+  cursor: pointer;
+}
+
+/* Add responsiveness */
+@media (max-width: 768px) {
+  .container {
+    width: 90%;
+  }
+
+  h2 {
+    font-size: 20px;
+  }
+
+  .subject-item {
+    padding: 10px;
+  }
+
+  .submit-button {
+    width: 100%;
+    padding: 10px;
+  }
+}
