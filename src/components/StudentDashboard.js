@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { auth, db } from '../firebaseConfig';
-import ExportPage from './ExportPage';
 import { doc, getDoc, collection, getDocs, setDoc } from 'firebase/firestore';
-import '../styles/StudentDashboard.css'
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import '../styles/StudentDashboard.css';
 
 const StudentDashboard = () => {
   const [year, setYear] = useState('');
@@ -23,10 +24,11 @@ const StudentDashboard = () => {
       if (docSnap.exists()) {
         setStudentData(docSnap.data());
       } else {
-        alert('No student data found.');
+        toast.error('No student data found.');
       }
     } catch (error) {
       console.error('Error fetching student data:', error);
+      toast.error('Error fetching student data.');
     }
   };
 
@@ -57,6 +59,7 @@ const StudentDashboard = () => {
       setSubjects(yearSubjects);
     } catch (error) {
       console.error('Error fetching subjects:', error);
+      toast.error('Error fetching subjects.');
       setSubjects([]);
     } finally {
       setLoading(false);
@@ -69,13 +72,12 @@ const StudentDashboard = () => {
 
   const handleSubmit = async () => {
     if (!studentData) {
-      alert('Student data not loaded. Please refresh the page.');
+      toast.error('Student data not loaded. Please refresh the page.');
       return;
     }
 
-    // Validate roll number
     if (studentData.rollNumber !== rollNumber) {
-      alert('Roll number mismatch. Please check your roll number.');
+      toast.error('Roll number mismatch. Please check your roll number.');
       return;
     }
 
@@ -85,20 +87,17 @@ const StudentDashboard = () => {
     }));
 
     if (selections.some((item) => item.staff === null)) {
-      alert('Please select staff for all subjects before submitting.');
+      toast.error('Please select staff for all subjects before submitting.');
       return;
     }
 
     try {
-      // Use predefined collection name based on department and year
       const collectionName = `${department.toLowerCase()}${year}`;
-
-      // Reference the predefined Firestore collection
       const studentDocRef = doc(db, collectionName, rollNumber);
       const studentDoc = await getDoc(studentDocRef);
 
       if (studentDoc.exists()) {
-        alert('Your selections have already been submitted!');
+        toast.info('Your selections have already been submitted!');
         return;
       }
 
@@ -106,16 +105,17 @@ const StudentDashboard = () => {
         regno: selections,
       });
 
-      alert('Your selections have been successfully submitted!');
+      toast.success('Your selections have been successfully submitted!');
       setSelectedStaff({});
     } catch (error) {
       console.error('Error submitting selections:', error);
-      alert('Failed to submit selections. Please try again.');
+      toast.error('Failed to submit selections. Please try again.');
     }
   };
 
   return (
     <div className="container">
+      <ToastContainer />
       <h2>Student Dashboard</h2>
       <div>
         <label htmlFor="rollNumber">Roll Number:</label>
@@ -157,18 +157,20 @@ const StudentDashboard = () => {
           <option value="Civil">Civil</option>
         </select>
       </div>
-      {/* Subjects */}
       <div>
+        {subjects.length > 0 && <h3>Subjects</h3>}
         {subjects.map((subject, index) => (
-          <div key={index}>
-            <h3>{subject.subject}</h3>
+          <div key={index} className="subject-item">
+            <h4>{subject.subject}</h4>
             {subject.staff.map((staff, idx) => (
               <label key={idx}>
                 <input
                   type="radio"
                   name={`subject-${index}`}
                   value={staff}
-                  onChange={() => setSelectedStaff({ ...selectedStaff, [index]: staff })}
+                  onChange={() =>
+                    setSelectedStaff({ ...selectedStaff, [index]: staff })
+                  }
                 />
                 {staff}
               </label>
@@ -176,7 +178,9 @@ const StudentDashboard = () => {
           </div>
         ))}
       </div>
-      <button onClick={handleSubmit}>Submit</button>
+      <button onClick={handleSubmit} disabled={loading}>
+        {loading ? 'Submitting...' : 'Submit'}
+      </button>
     </div>
   );
 };

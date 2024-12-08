@@ -3,55 +3,60 @@ import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
 import { auth } from '../firebaseConfig'; // Ensure the correct import
 import { getFirestore, setDoc, doc } from 'firebase/firestore'; // For Firestore database
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer } from 'react-toastify';
 import '../styles/LoginSignup.css';
 
 const SignUp = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [role, setRole] = useState(''); // State to store the selected role
-  const [rollNumber, setRollNumber] = useState(''); // State to capture roll number
-  const [year, setYear] = useState(''); // State to capture the selected year
+  const [role, setRole] = useState('');
+  const [rollNumber, setRollNumber] = useState('');
+  const [year, setYear] = useState('');
   const navigate = useNavigate();
+
+  // Custom error messages for Firebase error codes
+  const errorMessages = {
+    'auth/email-already-in-use': 'This email is already registered. Please use another email.',
+    'auth/weak-password': 'The password is too weak. Please use a stronger password.',
+    'auth/invalid-email': 'The email address is not valid. Please check and try again.',
+    default: 'An unexpected error occurred. Please try again.',
+  };
 
   const handleSignUp = async (e) => {
     e.preventDefault();
 
-    // Validate if the roll number matches the selected year (only for students)
+    // Validate roll number for students
     let validRollNumber = false;
     if (role === 'student') {
-      if (year === '1' && rollNumber.startsWith('24')) {
-        validRollNumber = true;
-      } else if (year === '2' && rollNumber.startsWith('23')) {
-        validRollNumber = true;
-      } else if (year === '3' && rollNumber.startsWith('22')) {
-        validRollNumber = true;
-      } else if (year === '4' && rollNumber.startsWith('21')) {
-        validRollNumber = true;
-      }
+      if (year === '1' && rollNumber.startsWith('24')) validRollNumber = true;
+      else if (year === '2' && rollNumber.startsWith('23')) validRollNumber = true;
+      else if (year === '3' && rollNumber.startsWith('22')) validRollNumber = true;
+      else if (year === '4' && rollNumber.startsWith('21')) validRollNumber = true;
 
       if (!validRollNumber) {
-        alert(`Invalid roll number for ${year} Year. Please enter a valid roll number.`);
-        return; // Prevent sign-up if the roll number is not valid
+        toast.error(`Invalid roll number for ${year} Year. Please enter a valid roll number.`);
+        return;
       }
     }
 
     try {
-      // Create a new user
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
 
-      // Store the user's role and roll number in Firestore
       const db = getFirestore();
       await setDoc(doc(db, 'users', user.email), {
-        role: role, // Save the role for the user
-        rollNumber: role === 'student' ? rollNumber : '', // Store roll number only for students
-        year: role === 'student' ? year : '', // Store year only for students
+        role,
+        rollNumber: role === 'student' ? rollNumber : '',
+        year: role === 'student' ? year : '',
       });
 
-      alert('Sign-Up Successful!');
-      navigate('/login'); // Redirect to login page after successful sign-up
+      toast.success('Sign-Up Successful!');
+      navigate('/login');
     } catch (error) {
-      alert(error.message);
+      const errorMessage = errorMessages[error.code] || errorMessages.default;
+      toast.error(errorMessage);
     }
   };
 
@@ -123,6 +128,7 @@ const SignUp = () => {
         )}
         <button type="submit">Sign Up</button>
       </form>
+      <ToastContainer />
     </div>
   );
 };

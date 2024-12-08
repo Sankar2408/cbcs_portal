@@ -1,13 +1,13 @@
 import React from 'react';
-import Navbar from './Navbar'; // Import your Navbar component
-import './style.css'; // Import the styles
+import Navbar from './Navbar'; 
+import './style.css'; 
 
 const Home = () => {
   return (
     <div>
-      <Navbar /> {/* Include the Navbar */}
+      <Navbar /> {}
       
-      {/* Parallax Section */}
+      {}
       <div className="parallax">
         <div className="parallax-text">
           <h1>NEC CBCS Portal</h1>

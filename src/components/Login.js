@@ -1,14 +1,16 @@
 import React, { useState } from 'react';
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
-import { auth } from '../firebaseConfig'; // Ensure the correct import
-import { getFirestore, getDoc, doc } from 'firebase/firestore'; // For Firestore database
+import { auth } from '../firebaseConfig'; 
+import { getFirestore, getDoc, doc } from 'firebase/firestore'; 
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer } from 'react-toastify';
 import '../styles/LoginSignup.css';
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
   const navigate = useNavigate();
 
   const handleLogin = async (e) => {
@@ -18,26 +20,28 @@ const Login = () => {
       // Sign in the user
       await signInWithEmailAndPassword(auth, email, password);
       const db = getFirestore();
-      const userDoc = await getDoc(doc(db, 'users', email)); // Get the user's role from Firestore
+      const userDoc = await getDoc(doc(db, 'users', email)); 
 
       if (!userDoc.exists()) {
-        setError('User not found in database');
+        toast.error('User not found in the database');
         return;
       }
 
       const userData = userDoc.data();
       const userRole = userData.role;
 
-      // Redirect based on the role
+    
       if (userRole === 'staff') {
+        toast.success('Welcome, Staff!');
         navigate('/staff-dashboard');
       } else if (userRole === 'student') {
+        toast.success('Welcome, Student!');
         navigate('/student-dashboard');
       } else {
-        setError('Role not found');
+        toast.error('Role not found');
       }
     } catch (error) {
-      setError('Login Failed: ' + error.message);
+      toast.error('Login Failed. Please check your credentials.');
     }
   };
 
@@ -66,8 +70,8 @@ const Login = () => {
           />
         </div>
         <button type="submit">Login</button>
-        {error && <p style={{ color: 'red' }}>{error}</p>}
       </form>
+      <ToastContainer />
     </div>
   );
 };

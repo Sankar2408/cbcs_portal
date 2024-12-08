@@ -1,16 +1,18 @@
 import React, { useState } from 'react';
 import { db } from '../firebaseConfig';
 import { collection, addDoc } from 'firebase/firestore';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import '../styles/StaffDashboard.css';
 
 const StaffDashboard = () => {
   const [subjectsPerYear, setSubjectsPerYear] = useState({
-    1: [], 2: [], 3: [], 4: [] // Each year will hold its subjects and staffs
+    1: [], 2: [], 3: [], 4: [] 
   });
   const [currentYear, setCurrentYear] = useState(1);
   const [subjectInput, setSubjectInput] = useState('');
   const [staffInput, setStaffInput] = useState('');
-  const [department, setDepartment] = useState(''); // State to store department selection
+  const [department, setDepartment] = useState(''); 
 
   const departments = ['CSE', 'ECE', 'IT', 'AIDs', 'Mech', 'Civil'];
 
@@ -21,8 +23,9 @@ const StaffDashboard = () => {
         [currentYear]: [...prev[currentYear], { subject: subjectInput, department, staff: [] }]
       }));
       setSubjectInput('');
+      toast.success('Subject added successfully!');
     } else {
-      alert('Please provide a subject and select a department.');
+      toast.error('Please provide a subject and select a department.');
     }
   };
 
@@ -34,9 +37,10 @@ const StaffDashboard = () => {
         if (selectedSubject.staff.length < 3) {
           selectedSubject.staff.push(staffInput);
           updatedYearSubjects[subjectIndex] = selectedSubject;
+          toast.success('Staff added successfully!');
           return { ...prev, [currentYear]: updatedYearSubjects };
         } else {
-          alert('You can only add up to 3 staff members per subject.');
+          toast.error('You can only add up to 3 staff members per subject.');
           return prev;
         }
       });
@@ -50,15 +54,16 @@ const StaffDashboard = () => {
         yearData: subjectsPerYear,
         timestamp: new Date(),
       });
-      alert('Subjects and staff added successfully!');
+      toast.success('Subjects and staff added successfully!');
     } catch (error) {
       console.error('Error adding staff data:', error);
-      alert('Failed to save data!');
+      toast.error('Failed to save data!');
     }
   };
 
   return (
     <div className="container">
+      <ToastContainer />
       <h2>Staff Dashboard</h2>
 
       {/* Year Selection */}
