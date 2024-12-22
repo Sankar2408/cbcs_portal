@@ -1,18 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import { auth, db } from '../firebaseConfig';
-import { doc, getDoc, collection, getDocs, setDoc } from 'firebase/firestore';
+import { signOut, onAuthStateChanged } from 'firebase/auth';
+import { doc, getDocs, getDoc, collection, setDoc } from 'firebase/firestore';
 import { toast, ToastContainer } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
 import 'react-toastify/dist/ReactToastify.css';
 import '../styles/StudentDashboard.css';
 
 const StudentDashboard = () => {
   const [year, setYear] = useState('');
   const [rollNumber, setRollNumber] = useState('');
+  const [department, setDepartment] = useState('');
   const [subjects, setSubjects] = useState([]);
   const [selectedStaff, setSelectedStaff] = useState({});
   const [studentData, setStudentData] = useState(null);
-  const [department, setDepartment] = useState('');
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   const fetchStudentData = async () => {
     const user = auth.currentUser;
@@ -22,7 +25,11 @@ const StudentDashboard = () => {
       const docRef = doc(db, 'users', user.email);
       const docSnap = await getDoc(docRef);
       if (docSnap.exists()) {
-        setStudentData(docSnap.data());
+        const data = docSnap.data();
+        setStudentData(data);
+        setRollNumber(data.rollNumber); 
+        setYear(data.year);  // Set year
+        setDepartment(data.department);  // Set department
       } else {
         toast.error('No student data found.');
       }
@@ -76,11 +83,6 @@ const StudentDashboard = () => {
       return;
     }
 
-    if (studentData.rollNumber !== rollNumber) {
-      toast.error('Roll number mismatch. Please check your roll number.');
-      return;
-    }
-
     const selections = subjects.map((subject, index) => ({
       subject: subject.subject,
       staff: selectedStaff[index] || null,
@@ -113,9 +115,26 @@ const StudentDashboard = () => {
     }
   };
 
+  // Logout function
+  const handleLogout = async () => {
+    try {
+      await signOut(auth);
+      toast.success('Logout successful!');
+      navigate('/', { replace: true });
+    } catch (error) {
+      console.error('Logout error:', error);
+      toast.error('Failed to logout!');
+    }
+  };
+
   return (
     <div className="container">
       <ToastContainer />
+      {/* Logout Button */}
+      <div className="logout-button">
+        <button onClick={handleLogout}>Logout</button>
+      </div>
+
       <h2>Student Dashboard</h2>
       <div>
         <label htmlFor="rollNumber">Roll Number:</label>
@@ -123,8 +142,8 @@ const StudentDashboard = () => {
           type="text"
           id="rollNumber"
           value={rollNumber}
-          onChange={(e) => setRollNumber(e.target.value)}
           placeholder="Enter your Roll Number"
+          disabled // Set editable to false
         />
       </div>
       <div>
@@ -132,9 +151,8 @@ const StudentDashboard = () => {
         <select
           id="year"
           value={year}
-          onChange={(e) => setYear(e.target.value)}
+          disabled // Set editable to false
         >
-          <option value="">-- Select Year --</option>
           <option value="1">1st Year</option>
           <option value="2">2nd Year</option>
           <option value="3">3rd Year</option>
@@ -146,9 +164,8 @@ const StudentDashboard = () => {
         <select
           id="department"
           value={department}
-          onChange={(e) => setDepartment(e.target.value)}
+          disabled // Set editable to false
         >
-          <option value="">-- Select Department --</option>
           <option value="CSE">CSE</option>
           <option value="ECE">ECE</option>
           <option value="IT">IT</option>
@@ -186,3 +203,6 @@ const StudentDashboard = () => {
 };
 
 export default StudentDashboard;
+
+
+

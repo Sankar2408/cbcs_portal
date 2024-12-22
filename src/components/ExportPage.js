@@ -114,14 +114,19 @@ const ExportPage = () => {
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            placeholder="Enter your email"
+            required
+            autoComplete="username" // Adding the autocomplete attribute for the email field
           />
+
           <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            placeholder="Enter your password"
-          />
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+                autoComplete="current-password" // For password field
+              />
+
+
           <button onClick={handleLogin}>Login</button>
         </div>
       )}

@@ -1,20 +1,38 @@
-/* StaffDashboard.css */
-
-.container {
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 20px;
-  font-family: Arial, sans-serif;
-  background-color: #f9f9f9;
-  border-radius: 8px;
+/* Global Styles */
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-h2 {
-  text-align: center;
-  margin-bottom: 20px;
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f4f6f9;
+
   color: #333;
 }
 
+/* Container */
+.container {
+  max-width: 900px;
+  margin-top: 30px auto;
+  padding: 30px;
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Header */
+h2 {
+  text-align: center;
+  margin-bottom: 30px;
+  font-size: 2rem;
+  color: #333;
+}
+
+/* Year Selection */
 .year-selection {
   display: flex;
   justify-content: center;
@@ -22,77 +40,107 @@ h2 {
 }
 
 .year-selection button {
-  padding: 10px 20px;
-  margin: 0 10px;
+  padding: 12px 25px;
+  margin: 0 12px;
   background-color: #007bff;
-  color: white;
+  color: #fff;
   border: none;
   border-radius: 5px;
+  font-size: 1rem;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: background-color 0.3s, transform 0.2s;
 }
 
-.year-selection button.active {
-  background-color: #0056b3;
-}
-
+.year-selection button.active,
 .year-selection button:hover {
   background-color: #0056b3;
+  transform: translateY(-2px);
 }
 
+/* Department Selection */
 .department-selection {
-  margin-bottom: 20px;
+  margin-bottom: 25px;
 }
 
 .department-selection select {
   width: 100%;
-  padding: 10px;
+  padding: 12px;
   border-radius: 5px;
-  border: 1px solid #ccc;
-  font-size: 16px;
+  border: 1px solid #ddd;
+  font-size: 1rem;
+  background-color: #fafafa;
+  transition: border 0.3s ease;
 }
 
+.department-selection select:focus {
+  border: 1px solid #007bff;
+  outline: none;
+}
+
+/* Add Subject */
 .add-subject {
-  margin-bottom: 20px;
+  margin-bottom: 25px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .add-subject input {
-  padding: 10px;
-  width: 70%;
-  margin-right: 10px;
+  padding: 12px;
+  width: 75%;
+  margin-right: 12px;
   border-radius: 5px;
-  border: 1px solid #ccc;
+  border: 1px solid #ddd;
+  font-size: 1rem;
+  background-color: #fafafa;
+  transition: border 0.3s ease;
+}
+
+.add-subject input:focus {
+  border: 1px solid #28a745;
+  outline: none;
 }
 
 .add-subject button {
-  padding: 10px;
+  padding: 12px 20px;
   background-color: #28a745;
   color: white;
   border: none;
   border-radius: 5px;
+  font-size: 1rem;
   cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s;
 }
 
 .add-subject button:hover {
   background-color: #218838;
+  transform: translateY(-2px);
 }
 
+/* Subject List */
 .subject-list {
-  margin-top: 20px;
+  margin-top: 30px;
 }
 
 .subject-item {
   margin-bottom: 20px;
-  padding: 10px;
-  background-color: #f1f1f1;
-  border-radius: 5px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.subject-item:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
 }
 
 .subject-item strong {
   display: block;
-  font-size: 18px;
+  font-size: 1.2rem;
   color: #333;
+  margin-bottom: 10px;
 }
 
 .subject-item ul {
@@ -106,43 +154,79 @@ h2 {
 }
 
 .subject-item input {
-  padding: 10px;
-  margin-right: 10px;
-  width: 70%;
+  padding: 12px;
+  margin-right: 12px;
+  width: 75%;
   border-radius: 5px;
-  border: 1px solid #ccc;
+  border: 1px solid #ddd;
+  font-size: 1rem;
+  background-color: #fafafa;
+  transition: border 0.3s ease;
+}
+
+.subject-item input:focus {
+  border: 1px solid #28a745;
+  outline: none;
 }
 
 .subject-item button {
-  padding: 10px;
+  padding: 12px 20px;
   background-color: #007bff;
   color: white;
   border: none;
   border-radius: 5px;
+  font-size: 1rem;
   cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s;
 }
 
 .subject-item button:hover {
   background-color: #0056b3;
+  transform: translateY(-2px);
 }
 
+/* Main Buttons */
 button {
   padding: 12px 20px;
-  background-color: #ffc107;
+  background-color:#0056b3;
   color: white;
   border: none;
   border-radius: 5px;
   width: 100%;
-  font-size: 16px;
+  font-size: 1.1rem;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: background-color 0.3s ease, transform 0.2s;
 }
 
 button:hover {
   background-color: #e0a800;
+  transform: translateY(-2px);
 }
 
 button:disabled {
   background-color: #dcdcdc;
   cursor: not-allowed;
+}
+
+/* Logout Button */
+.logout-button {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+}
+
+.logout-button button {
+  padding: 8px 15px;
+  font-size: 14px;
+  background-color: #ff5c5c;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+.logout-button button:hover {
+  background-color: #e04848;
+  transform: translateY(-2px);
 }
